@@ -1,7 +1,7 @@
 /****************************************************************************
  *  Compilation:  javac QuickFindUF.java
  *  Execution:  java QuickFindUF < input.txt
- *  Dependencies: StdIn.java StdOut.java
+ *  Dependencies: edu.princeton.cs.introcs.StdIn.java edu.princeton.cs.introcs.StdOut.java
  *
  *  Quick-find algorithm.
  *
@@ -24,7 +24,7 @@
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-import  edu.princeton.cs.introcs.*;
+//import  edu.princeton.cs.introcs.StdOut;
 public class QuickFindUF {
     private int[] id;    // id[i] = component identifier of i
     private int count;   // number of components
@@ -93,16 +93,16 @@ public class QuickFindUF {
      * and print the pair to standard output.
      */
     public static void main(String[] args) {
-        int N = StdIn.readInt();
+        int N = edu.princeton.cs.introcs.StdIn.readInt();
         QuickFindUF uf = new QuickFindUF(N);
-        while (!StdIn.isEmpty()) {
-            int p = StdIn.readInt();
-            int q = StdIn.readInt();
+        while (!edu.princeton.cs.introcs.StdIn.isEmpty()) {
+            int p = edu.princeton.cs.introcs.StdIn.readInt();
+            int q = edu.princeton.cs.introcs.StdIn.readInt();
             if (uf.connected(p, q)) continue;
             uf.union(p, q);
-            StdOut.println(p + " " + q);
+            edu.princeton.cs.introcs.StdOut.println(p + " " + q);
         }
-        StdOut.println(uf.count() + " components");
+        edu.princeton.cs.introcs.StdOut.println(uf.count() + " components");
     }
 
 }

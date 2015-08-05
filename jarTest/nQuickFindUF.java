@@ -1,11 +1,11 @@
-/****************************************************************************
+/******************************************************************************
  *  Compilation:  javac QuickFindUF.java
  *  Execution:  java QuickFindUF < input.txt
  *  Dependencies: StdIn.java StdOut.java
  *
  *  Quick-find algorithm.
  *
- ****************************************************************************/
+ ******************************************************************************/
 
 /**
  *  The <tt>QuickFindUF</tt> class represents a union-find data structure.
@@ -24,15 +24,14 @@
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-import  edu.princeton.cs.introcs.*;
 public class QuickFindUF {
     private int[] id;    // id[i] = component identifier of i
     private int count;   // number of components
 
     /**
      * Initializes an empty union-find data structure with N isolated components 0 through N-1.
-     * @throws java.lang.IllegalArgumentException if N < 0
      * @param N the number of objects
+     * @throws java.lang.IllegalArgumentException if N < 0
      */
     public QuickFindUF(int N) {
         count = N;
@@ -56,11 +55,20 @@ public class QuickFindUF {
      * @throws java.lang.IndexOutOfBoundsException unless 0 <= p < N
      */
     public int find(int p) {
+        validate(p);
         return id[p];
     }
 
+    // validate that p is a valid index
+    private void validate(int p) {
+        int N = id.length;
+        if (p < 0 || p >= N) {
+            throw new IndexOutOfBoundsException("index " + p + " is not between 0 and " + N);
+        }
+    }
+
     /**
-     * Are the two sites <tt>p</tt> and <tt>q/tt> in the same component?
+     * Are the two sites <tt>p</tt> and <tt>q</tt> in the same component?
      * @param p the integer representing one site
      * @param q the integer representing the other site
      * @return <tt>true</tt> if the two sites <tt>p</tt> and <tt>q</tt> are in
@@ -68,6 +76,8 @@ public class QuickFindUF {
      * @throws java.lang.IndexOutOfBoundsException unless both 0 <= p < N and 0 <= q < N
      */
     public boolean connected(int p, int q) {
+        validate(p);
+        validate(q);
         return id[p] == id[q];
     }
   
@@ -79,10 +89,14 @@ public class QuickFindUF {
      * @throws java.lang.IndexOutOfBoundsException unless both 0 <= p < N and 0 <= q < N
      */
     public void union(int p, int q) {
-        if (connected(p, q)) return;
-        int pid = id[p];
+        int pID = id[p];   // needed for correctness
+        int qID = id[q];   // to reduce the number of array accesses
+
+        // p and q are already in the same component
+        if (pID == qID) return;
+
         for (int i = 0; i < id.length; i++)
-            if (id[i] == pid) id[i] = id[q]; 
+            if (id[i] == pID) id[i] = qID;
         count--;
     }
 
